@@ -40,11 +40,11 @@ print ipaddr
 macaddr = re.search(r'HWaddr (\S+)\s', ifc_output).groups()[0]
 print macaddr
 
-ip_placeholder = "WIKI_IPADDRESS"
-mac_placeholder = "WIKI_MACADDRESS"
+ip_placeholder = "MY_IPADDRESS"
+mac_placeholder = "MY_MACADDRESS"
 date_placeholder = "DATESTAMP"
 
-f = open('/usr/share/innobox-dump/WikiInABox_Startup_Page.html','r')
+f = open('/usr/share/innobox-dump/InnoBox_Startup_Page.html','r')
 contents = f.read()
 f.close()
 import string
