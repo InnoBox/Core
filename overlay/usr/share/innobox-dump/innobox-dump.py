@@ -13,17 +13,14 @@ def beep(f):
 		f = 1024
 	a = Popen("beep -f %d" % f, shell=True)
 	a.wait()
-beep(880)
 f = open('/etc/mtab','r')
 mountpoint = None
-beep(440)
 for line in f:
 	pieces = line.split(' ')
 	if pieces[0] == "/dev/%s" % argv[1]:
 		mountpoint = pieces[1]
 		break
 f.close()
-beep(880)
 if mountpoint is None:
 	#This script may be invoked with volume names like "sdc", in which
 	#case we should exit silently, because volumes are not mountable
@@ -33,7 +30,6 @@ debug("mountpoint is %s" % mountpoint)
 print mountpoint
 
 ifc_output = Popen("/sbin/ifconfig eth0", shell=True, stdout=PIPE).communicate()[0]
-beep(440)
 import re
 ipaddr = re.search(r'inet addr:(\S+)\s', ifc_output).groups()[0]
 print ipaddr
@@ -54,8 +50,13 @@ import time
 outpage = string.replace(outpage, date_placeholder, time.asctime())
 import os.path
 f = open(os.path.join(mountpoint,'Welcome_to_WikiInABox.html'),'w')
-beep(1320)
 f.write(outpage)
 f.close()
-
+# the USB disk is mounted -o sync, so f.close() should be enough to
+# flush the file to disk
+beep(440)
 beep(880)
+beep(440)
+beep(880)
+beep(440)
+
