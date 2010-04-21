@@ -15,6 +15,14 @@ def beep(f):
 	a = Popen("beep -f %d" % f, shell=True)
 	a.wait()
 
+def chime():
+	beep(523.2)
+	beep(440)
+	beep(523.2)
+	beep(293.7*2)
+	beep(329.6*2)
+	beep(329.6*2)
+
 def get_mountpoint(devicename):
 	f = open('/etc/mtab','r')
 	for line in f:
@@ -64,10 +72,7 @@ import shutil
 shutil.copy('/usr/share/innobox-dump/autorun.inf',mountpoint)
 
 while mountpoint is not None:
-	beep(440)
-	beep(880)
-	beep(440)
-	beep(880)
-	beep(440)
+	#chime every minute until the device is unmounted
+	chime()
 	time.sleep(60)
 	mountpoint = get_mountpoint(argv[1])
