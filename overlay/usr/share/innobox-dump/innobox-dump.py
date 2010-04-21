@@ -63,8 +63,11 @@ f.close()
 import shutil
 shutil.copy('/usr/share/innobox-dump/autorun.inf',mountpoint)
 
-beep(440)
-beep(880)
-beep(440)
-beep(880)
-beep(440)
+while mountpoint is not None:
+	beep(440)
+	beep(880)
+	beep(440)
+	beep(880)
+	beep(440)
+	time.sleep(60)
+	mountpoint = get_mountpoint(argv[1])

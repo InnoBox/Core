@@ -1,2 +1,2 @@
 # Dump cool stuff on the usb stick
-KERNEL=="sd*", BUS=="usb", ACTION=="add", RUN+="/usr/share/innobox-dump/innobox-dump.py %k"
+KERNEL=="sd*", BUS=="usb", ACTION=="add", RUN+="/usr/share/innobox-dump/launch.sh %k"
