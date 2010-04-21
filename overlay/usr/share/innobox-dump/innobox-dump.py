@@ -53,13 +53,15 @@ mac_tag = "MY_MACADDRESS"
 date_tag = "DATESTAMP"
 
 outpage = contents % {ip_tag:ipaddr, mac_tag:macaddr, date_tag:time.asctime()}
-
 import os.path
 f = open(os.path.join(mountpoint,'Welcome_to_InnoBox.html'),'w')
 f.write(outpage)
 f.close()
 # the USB disk is mounted -o sync, so f.close() should be enough to
 # flush the file to disk
+
+import shutil
+shutil.copy('/usr/share/innobox-dump/autorun.inf',mountpoint)
 
 beep(440)
 beep(880)

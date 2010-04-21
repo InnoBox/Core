@@ -1,0 +1,4 @@
+[autorun]
+action=Welcome to InnoBox!
+shellexecute=Welcome_to_InnoBox.html
+label=InnoBox Stick
