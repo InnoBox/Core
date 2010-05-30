@@ -1,0 +1,4 @@
+#!/bin/bash -e
+echo First boot detected. Installing acpid power button managemnet.
+dpkg -i acpid_1.0.4-5ubuntu9.3_i386.deb
+
