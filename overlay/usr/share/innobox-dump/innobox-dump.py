@@ -57,16 +57,20 @@ if mountpoint is None:
 debug("mountpoint is %s" % mountpoint)
 
 ipaddr, macaddr = get_addrs()
+from socket import getfqdn
+fqdn = getfqdn(ipaddr)
 
 f = open('/usr/share/innobox-dump/InnoBox_Startup_Page.html','r')
 contents = f.read()
 f.close()
 
 ip_tag = "MY_IPADDRESS"
+fqdn_tag = "MY_FQDN" #Fully Qualified Domain Name
 mac_tag = "MY_MACADDRESS"
 date_tag = "DATESTAMP"
 
-outpage = contents % {ip_tag:ipaddr, mac_tag:macaddr, date_tag:time.asctime()}
+outpage = contents % {ip_tag:ipaddr, mac_tag:macaddr, date_tag:time.asctime(),
+                                        fqdn_tag:fqdn}
 import os.path
 f = open(os.path.join(mountpoint,'Welcome_to_InnoBox.html'),'w')
 f.write(outpage)
