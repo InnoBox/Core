@@ -80,6 +80,7 @@ f.close()
 
 import shutil
 shutil.copy('/usr/share/innobox-dump/autorun.inf',mountpoint)
+shutil.copy('/usr/share/innobox-dump/innobox_logo.ico',mountpoint)
 
 interval = 15 #seconds between beeps
 chime()
