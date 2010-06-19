@@ -2,7 +2,7 @@
 from subprocess import Popen, PIPE
 from sys import argv
 import time
-time.sleep(1)
+time.sleep(1) #FIXME: check if this is necessary.
 debugfile = open('/tmp/dev%s' % argv[1],'w')
 
 def debug(s):
@@ -36,9 +36,17 @@ def get_mountpoint(devicename):
 def get_addrs():
 	ifc_output = Popen("/sbin/ifconfig eth0", shell=True, stdout=PIPE).communicate()[0]
 	import re
-	ipaddr = re.search(r'inet addr:(\S+)\s', ifc_output).groups()[0]
+	match = re.search(r'inet addr:(\S+)\s', ifc_output)
+	if match is None:
+		ipaddr = None
+	else:
+		ipaddr = match.groups()[0]
 	debug("IP address is %s" % ipaddr)
-	macaddr = re.search(r'HWaddr (\S+)\s', ifc_output).groups()[0]
+	match = re.search(r'HWaddr (\S+)\s', ifc_output)
+	if match is None:
+		macaddr = "ERROR: No MAC address detected!"
+	else:
+		macaddr = match.groups()[0]
 	debug("MAC address is %s" % macaddr)
 	return ipaddr, macaddr
 
@@ -57,10 +65,24 @@ if mountpoint is None:
 debug("mountpoint is %s" % mountpoint)
 
 ipaddr, macaddr = get_addrs()
+# If ipaddr is none, then the interface has not yet been configured.
+# Maybe DHCP is ongoing.  Retry for up to 30 seconds,
+# in 2-second intervals, in case DHCP is awfully slow.
+wait = 0
+interval = 2
+while ipaddr is None and wait < 30:
+	time.sleep(interval)
+	wait += interval
+	ipaddr, macaddr = get_addrs()
+
 from socket import getfqdn
 fqdn = getfqdn(ipaddr)
 
-f = open('/usr/share/innobox-dump/InnoBox_Startup_Page.html','r')
+if ipaddr is not None:
+	templatefile = '/usr/share/innobox-dump/InnoBox_Startup_Page.html'
+else:
+	templatefile = '/usr/share/innobox-dump/InnoBox_Failure_Page.html'
+f = open(templatefile,'r')
 contents = f.read()
 f.close()
 
