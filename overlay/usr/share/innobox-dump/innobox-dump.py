@@ -91,6 +91,7 @@ fqdn_tag = "MY_FQDN" #Fully Qualified Domain Name
 mac_tag = "MY_MACADDRESS"
 date_tag = "DATESTAMP"
 
+#Run the string interpolation operation and replace teh strings in the dictionary 
 outpage = contents % {ip_tag:ipaddr, mac_tag:macaddr, date_tag:time.asctime(),
                                         fqdn_tag:fqdn}
 import os.path
