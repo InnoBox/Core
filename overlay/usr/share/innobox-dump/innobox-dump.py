@@ -85,13 +85,13 @@ while ipaddr is None and wait < 30:
 	wait += interval
 	ipaddr, macaddr = get_addrs()
 
-from socket import getfqdn
-fqdn = getfqdn(ipaddr)
-
 if ipaddr is not None:
+	from socket import getfqdn
+	fqdn = getfqdn(ipaddr)
 	templatefile = '/usr/share/innobox-dump/InnoBox_Startup_Page.html'
 else:
 	templatefile = '/usr/share/innobox-dump/InnoBox_Failure_Page.html'
+	fqdn = None
 f = open(templatefile,'r')
 contents = f.read()
 f.close()
