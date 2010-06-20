@@ -53,7 +53,7 @@ def get_addrs():
 def is_special_mountpoint(mountpoint):
 	from os.path import join
 	from os import access, F_OK
-	SPECIAL = ".Innobox_Stick_Identifier"
+	SPECIAL = ".InnoBox_Stick_Identifier"
 	return access(os.path.join(mountpoint,SPECIAL), F_OK)
 
 def is_backup_mountpoint(mountpoint):
