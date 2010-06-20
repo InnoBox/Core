@@ -56,6 +56,12 @@ def is_special_mountpoint(mountpoint):
 	SPECIAL = ".Innobox_Stick_Identifier"
 	return access(os.path.join(mountpoint,SPECIAL), F_OK)
 
+def is_backup_mountpoint(mountpoint):
+	from os.path import join
+	from os import access, F_OK
+	SPECIAL = "InnoBox_Backup_Directory"
+	return access(os.path.join(mountpoint,SPECIAL), F_OK)
+
 mountpoint = get_mountpoint(argv[1])
 if mountpoint is None:
 	#This script may be invoked with volume names like "sdc", in which
@@ -63,6 +69,10 @@ if mountpoint is None:
 	debug("mountpoint is None!")
 	exit()
 debug("mountpoint is %s" % mountpoint)
+
+if is_backup_mountpoint(mountpoint):
+	debug("This is a backup device. No dump will be written.")
+	exit()
 
 ipaddr, macaddr = get_addrs()
 # If ipaddr is none, then the interface has not yet been configured.
