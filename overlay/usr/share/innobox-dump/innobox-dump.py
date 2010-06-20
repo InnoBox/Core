@@ -54,13 +54,13 @@ def is_special_mountpoint(mountpoint):
 	from os.path import join
 	from os import access, F_OK
 	SPECIAL = ".InnoBox_Stick_Identifier"
-	return access(os.path.join(mountpoint,SPECIAL), F_OK)
+	return access(join(mountpoint,SPECIAL), F_OK)
 
 def is_backup_mountpoint(mountpoint):
 	from os.path import join
 	from os import access, F_OK
 	SPECIAL = "InnoBox_Backup_Directory"
-	return access(os.path.join(mountpoint,SPECIAL), F_OK)
+	return access(join(mountpoint,SPECIAL), F_OK)
 
 mountpoint = get_mountpoint(argv[1])
 if mountpoint is None:
