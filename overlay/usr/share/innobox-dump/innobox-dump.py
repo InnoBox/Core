@@ -88,7 +88,10 @@ while ipaddr is None and wait < 30:
 if ipaddr is not None:
 	from socket import getfqdn
 	fqdn = getfqdn(ipaddr)
-	templatefile = '/usr/share/innobox-dump/InnoBox_Startup_Page.html'
+	if fqdn == ipaddr:
+		templatefile = '/usr/share/innobox-dump/InnoBox_IPv4_Startup_Page.html'
+	else:
+		templatefile = '/usr/share/innobox-dump/Innobox_FQDN_Startup_Page.html'
 else:
 	templatefile = '/usr/share/innobox-dump/InnoBox_Failure_Page.html'
 	fqdn = None
