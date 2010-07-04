@@ -4,15 +4,30 @@
 <title>
 Welcome to InnoBox!
 </title>
+<style type="text/css">
+:root {
+  font-family: sans-serif;
+  background-color: #AAAAFF;
+  padding: 4em;
+}
+body {
+  background-color: white;
+  padding: 3em;
+  border: 5px solid ThreeDShadow;
+  border-color: #0000AA;
+}
+</style>
 </head>
 <body>
-<h1>Thank you for choosing InnoBox!</h1> Your Box is now running at <strong><a href="http://%(MY_IPADDRESS)s/">http://%(MY_IPADDRESS)s/</a></strong>.
+<p><h1>Thank you for choosing InnoBox!</h1></p>
+<p>
+Your Box is now running at <strong><a href="http://%(MY_IPADDRESS)s/">http://%(MY_IPADDRESS)s/</a></strong>.
 You may wish to make a bookmark or e-mail this link to colleagues.
-<br>
+</p><p>
 For some advanced network configuration tasks, you may need to know the box's MAC Address: %(MY_MACADDRESS)s.
-<br>
+</p><p>
 This page was produced %(DATESTAMP)s according to the box's internal clock.
-
-Welcome to InnoBox!
+</p>
+<p><h1>Welcome to InnoBox!</h1></p>
 </body>
 <html>
