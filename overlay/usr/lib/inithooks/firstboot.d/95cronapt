@@ -1,0 +1,45 @@
+#!/bin/bash -e
+
+echo "Nightly security updates are enabled. Skipping security update on first bood out of consideration for bootspeed..."
+
+exit 0
+LOGFILE=/var/log/cron-apt/log
+
+fatal() {
+    echo "Error: $@, aborting..."
+    echo "It is highly recommended to manually install security updates"
+    echo "by running: cron-apt (logfile: $LOGFILE)"
+    echo -e "\n================================================================="
+    exit 1
+}
+
+# exit if running live
+grep -qs boot=casper /proc/cmdline && exit 2
+
+# allow cancellation (ask again if not blank/Y/y/N/n)
+while true; do
+    echo -e "\n================================================================="
+    TEXT="First boot detected: Install security updates? (timeout: 5) [Y/n] "
+    read -t 5 -p "$TEXT" VAL || true
+    [ $VAL ] || VAL=Y
+    case "$VAL" in
+        y|Y) echo -e "\nAttempting to install security updates" && break ;;
+        n|N) echo -e "\nNot installing security updates" && exit 3 ;;
+    esac
+done
+
+# check connectivity
+SOURCES="/etc/apt/sources.list.d/security.sources.list"
+ARCHIVE=$(grep ^deb $SOURCES | head -n 1 | cut -d " " -f 2 | cut -d "/" -f 3)
+[ -n "$ARCHIVE" ] || fatal "Could not determine archive"
+host -s 2 $ARCHIVE >/dev/null 2>&1 || fatal "Could not connect to archive"
+
+# interate over cron-apt actions, removing quiet options
+for actionfile in /etc/cron-apt/action.d/*; do
+    while read aptcmd; do
+        aptcmd=$(echo $aptcmd | sed "s|-q||")
+        aptcmd=$(echo $aptcmd | sed "s|-o quiet=.*||")
+        DEBIAN_FRONTEND=noninteractive apt-get $aptcmd | tee -a $LOGFILE
+    done < $actionfile
+done
+
