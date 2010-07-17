@@ -1,0 +1,2 @@
+#!/bin/bash -e
+echo "Disabling TurnKey's configuration file blank-out script."

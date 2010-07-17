@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
-echo "Nightly security updates are enabled. Skipping security update on first bood out of consideration for bootspeed..."
+echo "Nightly security updates are enabled."
+echo "Skipping security update on first-boot for now...."
 
 exit 0
 LOGFILE=/var/log/cron-apt/log
