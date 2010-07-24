@@ -20,15 +20,17 @@ body {
 <body>
 <p><h1>InnoBox Network Configuration Failed!</h1></p>
 <p>
-Unfortunately, your InnoBox device was not able to
-connect to the local network.  Please make sure that the box's network cable
-is plugged into a network with a router providing automatic IP configuration
-(DHCP).
-</p><p>
-If your network does not provide open automatic configuration, you may need to know the box's MAC Address: %(MY_MACADDRESS)s.
-You may need to contact your network administrator and provide this MAC address.
-</p><p>
-This page was produced %(DATESTAMP)s according to the box's internal clock.
+Unfortunately, your InnoBox device was <strong>unable to obtain an IP address.
+</strong></p>
+
+<p>Make sure that the  network cable is plugged in, and make sure that your network that provides automatic IP configuration (DHCP).
+</p>
+
+<p>On some networks, such as those at large universities, you must register the device’s MAC address with your campus networking office in order to obtain an IP address. Your InnoBox device’s MAC Address is: <strong> %(MY_MACADDRESS)s</strong>.</p>
+
+
+<p>
+This page was produced at %(DATESTAMP)s according to the box's internal clock.
 </p>
 </body>
 <html>
