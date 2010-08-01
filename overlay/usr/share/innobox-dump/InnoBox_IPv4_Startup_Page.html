@@ -20,14 +20,24 @@ body {
 <body>
 <p><h1>Thank you for choosing InnoBox!</h1></p>
 <p>
-Your Box is now running at <strong><a href="http://%(MY_IPADDRESS)s/">http://%(MY_IPADDRESS)s/</a></strong>.
-You may wish to make a bookmark or e-mail this link to colleagues.  You can get
-more information about how to use the device by clicking on this link.
+Your InnoBox Device is now running at:<p> <strong><a href="http://%(MY_IPADDRESS)s/">http://%(MY_IPADDRESS)s/</a></strong>.</p>
+<p>
+You may wish to make a bookmark or e-mail this link to colleagues.  Follow this link to your device's homepage. If the above link works, <strong>setup is complete!</strong>
+<p><h1>Welcome to InnoBox!</h1></p>
+<hr/>
 </p><p>
-For some advanced network configuration tasks, you may need to know the box's MAC Address: %(MY_MACADDRESS)s.
+If you are having trouble connecting to your device, there is likely a networking problem.</p>
+<ul>
+<li>
+ Please ensure that both the InnoBox device and this computer are on the same subnet. </li>
+<li>If you are on a corporate or academic network, then your networking office may require you to provide them with the InnoBox device's MAC address before the device can access the network. Your InnoBox device's MAC Address is: %(MY_MACADDRESS)s. </li>
+<li>If your network does not automatically provide persistent IP addresses, you may need to request a static IP address from your network office.</li>
+</ul>
+</p>
+
+<p> If you change your networking configuration, refersh this USB stick by re-inserting it into the InnoBox device and open it again on your computer. 
 </p><p>
 This page was produced %(DATESTAMP)s according to the box's internal clock.
 </p>
-<p><h1>Welcome to InnoBox!</h1></p>
 </body>
 <html>
