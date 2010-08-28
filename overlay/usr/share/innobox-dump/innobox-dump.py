@@ -2,26 +2,13 @@
 from subprocess import Popen, PIPE
 from sys import argv
 import time
+import os.path
 time.sleep(1) #FIXME: check if this is necessary.
 debugfile = open('/tmp/dev%s' % argv[1],'w')
 
 def debug(s):
 	debugfile.write("%s\n" % s)
 	debugfile.flush()
-
-def beep(f):
-	if f is None:
-		f = 1024
-	a = Popen("beep -f %d" % f, shell=True)
-	a.wait()
-
-def chime():
-	beep(523.2)
-	beep(440)
-	beep(523.2)
-	beep(293.7*2)
-	beep(329.6*2)
-	beep(329.6*2)
 
 def get_mountpoint(devicename):
 	f = open('/etc/mtab','r')
@@ -62,6 +49,22 @@ def is_backup_mountpoint(mountpoint):
 	SPECIAL = "InnoBox_Backup_Directory"
 	return access(join(mountpoint,SPECIAL), F_OK)
 
+tempfilename = '.tempfile_innobox'
+def blinksleep(mountpoint, t):
+	""" "Sleep" for time t (in seconds) while causing the mountpoint to
+	    blink."""
+	import time
+	import os
+	import os.path
+	t0 = time.time()
+	filename = os.path.join(mountpoint, tempfilename)
+	while time.time() < t0 + t:
+		f = open(filename,'w')
+		f.write("Please ignore the contents of this file")
+		f.close()
+		os.remove(filename)
+		time.sleep(1.0)
+
 mountpoint = get_mountpoint(argv[1])
 if mountpoint is None:
 	#This script may be invoked with volume names like "sdc", in which
@@ -74,15 +77,20 @@ if is_backup_mountpoint(mountpoint):
 	debug("This is a backup device. No dump will be written.")
 	exit()
 
+#Force 4 seconds of blinking to ensure that the user sees the blinking activity.
+#Otherwise we risk that the entire operation could occur in under a second, and
+#the user could worry that nothing has happened.
+blinksleep(mountpoint, 4) 
+
 ipaddr, macaddr = get_addrs()
 # If ipaddr is none, then the interface has not yet been configured.
 # Maybe DHCP is ongoing.  Retry for up to 30 seconds,
 # in 2-second intervals, in case DHCP is awfully slow.
-wait = 0
+t0 = time.time()
+waittime = 30 #seconds
 interval = 2
-while ipaddr is None and wait < 30:
-	time.sleep(interval)
-	wait += interval
+while ipaddr is None and time.time() < t0 + 30:
+	blinksleep(mountpoint, interval)
 	ipaddr, macaddr = get_addrs()
 
 if ipaddr is not None:
@@ -107,7 +115,6 @@ date_tag = "DATESTAMP"
 #Run the string interpolation operation and replace teh strings in the dictionary 
 outpage = contents % {ip_tag:ipaddr, mac_tag:macaddr, date_tag:time.asctime(),
                                         fqdn_tag:fqdn}
-import os.path
 f = open(os.path.join(mountpoint,'Welcome_to_InnoBox.html'),'w')
 f.write(outpage)
 f.close()
@@ -117,12 +124,3 @@ f.close()
 import shutil
 shutil.copy('/usr/share/innobox-dump/autorun.inf',mountpoint)
 shutil.copy('/usr/share/innobox-dump/innobox_logo.ico',mountpoint)
-
-interval = 15 #seconds between beeps
-chime()
-time.sleep(interval)
-while mountpoint is not None and is_special_mountpoint(mountpoint):
-	#chime every minute until the device is unmounted
-	chime()
-	time.sleep(interval)
-	mountpoint = get_mountpoint(argv[1])
