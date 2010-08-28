@@ -1,0 +1,6 @@
+v2 of USBpatch is designed to provide the core hardware functionality for the Lenovo Ideacentre q150. Instead of the Acer Aspire Revo which is no longer on the market.
+
+Key differences: the q150 has no speaker thus no beep.
+The q150 also has a newer ethernet card that requires Ubunty 10. So this will be based on TurnkeyLinux's Lucid.
+
+
