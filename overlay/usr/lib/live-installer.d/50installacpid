@@ -1,4 +1,11 @@
 #!/bin/bash -e
+
+# Q: Why are we installing acpid manually at first boot instead of using the 
+#    tklpatch deb folder to install during patch time?
+# A: Because, at patch time, the acpid package starts a daemon that prevents the
+#    chroot from being unmounted and thus blocks.iso creation.
+# Note: the acpid people say this will be fixed in a later version. (perhaps it alrready is fixed.)
+
 echo "First boot detected. Installing acpid for power button management."
-dpkg -i /debs/acpid_1.0.4-5ubuntu9.3_i386.deb
+dpkg -i /debs/acpid*.deb
 
