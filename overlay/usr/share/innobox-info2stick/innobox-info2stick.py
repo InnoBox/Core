@@ -1,4 +1,9 @@
 #!/usr/bin/python
+# This script handles everything related to getting the IP address and writing an HTML file containing
+# the IP address and other information to a USB stick that the user inserts.
+#
+#
+
 from subprocess import Popen, PIPE
 from sys import argv
 import time
@@ -74,7 +79,7 @@ if mountpoint is None:
 debug("mountpoint is %s" % mountpoint)
 
 if is_backup_mountpoint(mountpoint):
-	debug("This is a backup device. No dump will be written.")
+	debug("This is a backup device. No innobox-info2stick will be written.")
 	exit()
 
 #Force 4 seconds of blinking to ensure that the user sees the blinking activity.
@@ -97,11 +102,11 @@ if ipaddr is not None:
 	from socket import getfqdn
 	fqdn = getfqdn(ipaddr)
 	if fqdn == ipaddr:
-		templatefile = '/usr/share/innobox-dump/InnoBox_IPv4_Startup_Page.html'
+		templatefile = '/usr/share/innobox-info2stick/InnoBox_IPv4_Startup_Page.html'
 	else:
-		templatefile = '/usr/share/innobox-dump/InnoBox_FQDN_Startup_Page.html'
+		templatefile = '/usr/share/innobox-info2stick/InnoBox_FQDN_Startup_Page.html'
 else:
-	templatefile = '/usr/share/innobox-dump/InnoBox_Failure_Page.html'
+	templatefile = '/usr/share/innobox-info2stick/InnoBox_Failure_Page.html'
 	fqdn = None
 f = open(templatefile,'r')
 contents = f.read()
@@ -122,5 +127,5 @@ f.close()
 # flush the file to disk
 
 import shutil
-shutil.copy('/usr/share/innobox-dump/autorun.inf',mountpoint)
-shutil.copy('/usr/share/innobox-dump/innobox_logo.ico',mountpoint)
+shutil.copy('/usr/share/innobox-info2stick/autorun.inf',mountpoint)
+shutil.copy('/usr/share/innobox-info2stick/innobox_logo.ico',mountpoint)

@@ -1,2 +1,2 @@
-# Dump cool stuff on the usb stick
-KERNEL=="sd*", BUS=="usb", ACTION=="add", RUN+="/usr/share/innobox-dump/launch.sh %k"
+# Invoke InnoBoxe's signature feature. Dump IP address and HTML to a USB stick that the user inserts. 
+KERNEL=="sd*", BUS=="usb", ACTION=="add", RUN+="/usr/share/innobox-info2stick/launch.sh %k"
