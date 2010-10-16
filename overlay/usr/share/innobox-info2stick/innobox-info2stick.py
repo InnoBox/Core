@@ -68,7 +68,7 @@ def blinksleep(mountpoint, t):
 		f.write("Please ignore the contents of this file")
 		f.close()
 		os.remove(filename)
-		time.sleep(1.0)
+		time.sleep(0.4)
 
 mountpoint = get_mountpoint(argv[1])
 if mountpoint is None:
@@ -82,10 +82,10 @@ if is_backup_mountpoint(mountpoint):
 	debug("This is a backup device. No innobox-info2stick will be written.")
 	exit()
 
-#Force 4 seconds of blinking to ensure that the user sees the blinking activity.
+#Force 10 seconds of blinking to ensure that the user sees the blinking activity.
 #Otherwise we risk that the entire operation could occur in under a second, and
 #the user could worry that nothing has happened.
-blinksleep(mountpoint, 4) 
+blinksleep(mountpoint, 10) 
 
 ipaddr, macaddr = get_addrs()
 # If ipaddr is none, then the interface has not yet been configured.
